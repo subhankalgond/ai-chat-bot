@@ -27,6 +27,9 @@ interface SidebarProps {
   onToggleCollapse: () => void;
   onOpenSettings: () => void;
   onOpenAdmin: () => void;
+  onOpenProjects: () => void;
+  onOpenLibrary: () => void;
+  onOpenProfile: () => void;
 }
 
 export function Sidebar({
@@ -34,6 +37,9 @@ export function Sidebar({
   onToggleCollapse,
   onOpenSettings,
   onOpenAdmin,
+  onOpenProjects,
+  onOpenLibrary,
+  onOpenProfile,
 }: SidebarProps) {
   const {
     conversations,
@@ -117,6 +123,31 @@ export function Sidebar({
         >
           <Plus className="w-4 h-4" />
           {!collapsed && <span>New Chat</span>}
+        </button>
+      </div>
+
+      {/* Navigation Shortcuts: Projects & Library */}
+      <div className="px-3 pb-2 space-y-0.5">
+        <button
+          onClick={onOpenProjects}
+          className={`w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-secondary text-muted-foreground hover:text-foreground text-xs font-medium transition-colors ${
+            collapsed ? 'justify-center' : ''
+          }`}
+          title="Workspaces & Projects"
+        >
+          <FolderOpen className="w-4 h-4 text-amber-500" />
+          {!collapsed && <span>Projects</span>}
+        </button>
+
+        <button
+          onClick={onOpenLibrary}
+          className={`w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-secondary text-muted-foreground hover:text-foreground text-xs font-medium transition-colors ${
+            collapsed ? 'justify-center' : ''
+          }`}
+          title="Prompt & Snippet Library"
+        >
+          <Bookmark className="w-4 h-4 text-purple-400" />
+          {!collapsed && <span>Prompt Library</span>}
         </button>
       </div>
 
@@ -223,6 +254,25 @@ export function Sidebar({
 
       {/* Bottom Footer Controls */}
       <div className="p-3 border-t border-border/60 space-y-1">
+        {/* User Profile Card */}
+        <button
+          onClick={onOpenProfile}
+          className={`w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-secondary text-foreground text-xs font-medium transition-colors ${
+            collapsed ? 'justify-center' : ''
+          }`}
+          title="User Profile"
+        >
+          <div className="w-6 h-6 rounded-full bg-foreground text-background flex items-center justify-center font-bold text-[10px]">
+            SK
+          </div>
+          {!collapsed && (
+            <div className="text-left min-w-0 flex-1">
+              <div className="truncate font-semibold">Subhan Kalgond</div>
+              <div className="text-[10px] text-muted-foreground truncate">Owner</div>
+            </div>
+          )}
+        </button>
+
         {/* Admin Dashboard */}
         <button
           onClick={onOpenAdmin}

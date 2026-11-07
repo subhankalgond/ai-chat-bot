@@ -171,30 +171,58 @@ export function Composer() {
     <div className="max-w-3xl mx-auto w-full px-4 pb-4">
       {/* Attachment Previews */}
       {attachments.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-2 p-2 rounded-xl bg-secondary/50 border border-border">
-          {attachments.map((att) => (
-            <div
-              key={att.id}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-background text-xs shadow-sm"
-            >
-              {att.type.startsWith('image/') && att.base64Data ? (
-                <img
-                  src={att.base64Data}
-                  alt={att.name}
-                  className="w-5 h-5 rounded object-cover"
-                />
-              ) : (
-                <FileText className="w-4 h-4 text-muted-foreground" />
-              )}
-              <span className="max-w-[140px] truncate font-medium">{att.name}</span>
-              <button
-                onClick={() => removeAttachment(att.id)}
-                className="p-0.5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground"
+        <div className="flex flex-col gap-2 mb-2 p-2.5 rounded-xl bg-secondary/50 border border-border">
+          <div className="flex flex-wrap gap-2">
+            {attachments.map((att) => (
+              <div
+                key={att.id}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-background text-xs shadow-sm"
               >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          ))}
+                {att.type.startsWith('image/') && att.base64Data ? (
+                  <img
+                    src={att.base64Data}
+                    alt={att.name}
+                    className="w-5 h-5 rounded object-cover"
+                  />
+                ) : (
+                  <FileText className="w-4 h-4 text-muted-foreground" />
+                )}
+                <span className="max-w-[140px] truncate font-medium">{att.name}</span>
+                <button
+                  onClick={() => removeAttachment(att.id)}
+                  className="p-0.5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Quick analysis suggestions for attached file */}
+          <div className="flex items-center gap-1.5 pt-1 overflow-x-auto text-[11px] text-muted-foreground">
+            <span className="font-semibold text-foreground/80 flex-shrink-0">Quick Prompt:</span>
+            <button
+              type="button"
+              onClick={() => setInput("Please provide an executive summary of this document, highlighting the core objectives and findings.")}
+              className="px-2 py-0.5 rounded-md bg-background border border-border hover:bg-secondary hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              📊 Summarize
+            </button>
+            <button
+              type="button"
+              onClick={() => setInput("Extract and analyze the key data points, metrics, and trends presented here.")}
+              className="px-2 py-0.5 rounded-md bg-background border border-border hover:bg-secondary hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              📈 Key Insights
+            </button>
+            <button
+              type="button"
+              onClick={() => setInput("List all key action items, recommendations, and next steps mentioned.")}
+              className="px-2 py-0.5 rounded-md bg-background border border-border hover:bg-secondary hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              🎯 Action Items
+            </button>
+          </div>
         </div>
       )}
 

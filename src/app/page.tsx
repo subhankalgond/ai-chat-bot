@@ -9,6 +9,9 @@ import { VoiceWorkspace } from '@/components/voice/VoiceWorkspace';
 import { SettingsModal } from '@/components/settings/SettingsModal';
 import { AdminDashboardModal } from '@/components/admin/AdminDashboardModal';
 import { ImageGenModal } from '@/components/chat/ImageGenModal';
+import { ProjectsModal } from '@/components/projects/ProjectsModal';
+import { LibraryModal } from '@/components/library/LibraryModal';
+import { ProfileModal } from '@/components/profile/ProfileModal';
 import { useChat } from '@/context/ChatContext';
 
 export default function HomePage() {
@@ -24,6 +27,9 @@ function MainAppLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
+  const [projectsOpen, setProjectsOpen] = useState(false);
+  const [libraryOpen, setLibraryOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground antialiased font-sans">
@@ -33,6 +39,9 @@ function MainAppLayout() {
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         onOpenSettings={() => setSettingsOpen(true)}
         onOpenAdmin={() => setAdminOpen(true)}
+        onOpenProjects={() => setProjectsOpen(true)}
+        onOpenLibrary={() => setLibraryOpen(true)}
+        onOpenProfile={() => setProfileOpen(true)}
       />
 
       {/* Main Workspace */}
@@ -63,6 +72,24 @@ function MainAppLayout() {
       <ImageGenModal
         isOpen={imageGenOpen}
         onClose={() => setImageGenOpen(false)}
+      />
+
+      {/* Projects Modal */}
+      <ProjectsModal
+        isOpen={projectsOpen}
+        onClose={() => setProjectsOpen(false)}
+      />
+
+      {/* Prompt Library Modal */}
+      <LibraryModal
+        isOpen={libraryOpen}
+        onClose={() => setLibraryOpen(false)}
+      />
+
+      {/* User Profile Modal */}
+      <ProfileModal
+        isOpen={profileOpen}
+        onClose={() => setProfileOpen(false)}
       />
     </div>
   );
