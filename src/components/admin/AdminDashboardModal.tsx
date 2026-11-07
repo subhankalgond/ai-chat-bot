@@ -246,3 +246,4 @@ export function AdminDashboardModal({ isOpen, onClose }: AdminDashboardModalProp
     </div>
   );
 }
+

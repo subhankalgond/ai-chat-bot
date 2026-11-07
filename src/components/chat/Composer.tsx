@@ -14,6 +14,7 @@ import {
   X,
   FileText,
   Loader2,
+  Image as ImageIcon,
 } from 'lucide-react';
 
 export function Composer() {
@@ -24,6 +25,7 @@ export function Composer() {
     webSearchEnabled,
     setWebSearchEnabled,
     setVoiceModeOpen,
+    setImageGenOpen,
   } = useChat();
 
   const [input, setInput] = useState('');
@@ -238,6 +240,16 @@ export function Composer() {
               )}
             </button>
 
+            {/* AI Image Studio Button */}
+            <button
+              type="button"
+              onClick={() => setImageGenOpen(true)}
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              title="Generate Image with AI (DALL-E 3 & Flux)"
+            >
+              <ImageIcon className="w-4 h-4" />
+            </button>
+
             {/* Web Search Toggle */}
             <button
               type="button"
@@ -312,3 +324,4 @@ export function Composer() {
     </div>
   );
 }
+

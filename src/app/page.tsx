@@ -8,6 +8,8 @@ import { ChatArea } from '@/components/chat/ChatArea';
 import { VoiceWorkspace } from '@/components/voice/VoiceWorkspace';
 import { SettingsModal } from '@/components/settings/SettingsModal';
 import { AdminDashboardModal } from '@/components/admin/AdminDashboardModal';
+import { ImageGenModal } from '@/components/chat/ImageGenModal';
+import { useChat } from '@/context/ChatContext';
 
 export default function HomePage() {
   return (
@@ -18,6 +20,7 @@ export default function HomePage() {
 }
 
 function MainAppLayout() {
+  const { imageGenOpen, setImageGenOpen } = useChat();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
@@ -55,6 +58,13 @@ function MainAppLayout() {
         isOpen={adminOpen}
         onClose={() => setAdminOpen(false)}
       />
+
+      {/* AI Image Studio */}
+      <ImageGenModal
+        isOpen={imageGenOpen}
+        onClose={() => setImageGenOpen(false)}
+      />
     </div>
   );
 }
+

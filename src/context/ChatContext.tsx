@@ -27,6 +27,8 @@ interface ChatContextType {
   stopGeneration: () => void;
   voiceModeOpen: boolean;
   setVoiceModeOpen: (open: boolean) => void;
+  imageGenOpen: boolean;
+  setImageGenOpen: (open: boolean) => void;
   addVoiceTurn: (userTranscript: string, assistantResponse: string) => void;
   theme: 'light' | 'dark';
   toggleTheme: () => void;
@@ -46,6 +48,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const [isStreaming, setIsStreaming] = useState<boolean>(false);
   const [webSearchEnabled, setWebSearchEnabled] = useState<boolean>(false);
   const [voiceModeOpen, setVoiceModeOpen] = useState<boolean>(false);
+  const [imageGenOpen, setImageGenOpen] = useState<boolean>(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -510,6 +513,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         stopGeneration,
         voiceModeOpen,
         setVoiceModeOpen,
+        imageGenOpen,
+        setImageGenOpen,
         addVoiceTurn,
         theme,
         toggleTheme,
@@ -527,3 +532,4 @@ export function useChat() {
   }
   return context;
 }
+

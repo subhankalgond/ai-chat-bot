@@ -114,3 +114,4 @@ export async function createOpenAIRealtimeSession(voice: string = 'alloy') {
 
   return await response.json();
 }
+

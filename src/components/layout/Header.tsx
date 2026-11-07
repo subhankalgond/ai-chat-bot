@@ -99,3 +99,4 @@ export function Header({ onToggleSidebar, onOpenAdmin }: HeaderProps) {
     </header>
   );
 }
+
