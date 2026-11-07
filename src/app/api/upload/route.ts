@@ -4,6 +4,7 @@ import { generateUUID } from '@/lib/utils';
 import { Attachment } from '@/types';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {

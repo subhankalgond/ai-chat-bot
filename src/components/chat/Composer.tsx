@@ -227,7 +227,7 @@ export function Composer() {
       )}
 
       {/* Main Composer Box */}
-      <div className="relative flex flex-col rounded-2xl border border-border bg-background shadow-lg shadow-black/5 dark:shadow-black/20 focus-within:border-ring/80 transition-all">
+      <div className="relative flex flex-col rounded-2xl border border-border/80 bg-background/95 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/30 focus-within:border-amber-500/50 focus-within:ring-2 focus-within:ring-amber-500/15 transition-all">
         {/* Hidden File Input */}
         <input
           ref={fileInputRef}
@@ -258,7 +258,7 @@ export function Composer() {
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
               title="Attach PDF, Word, Excel, or Image"
             >
               {isUploading ? (
@@ -272,7 +272,7 @@ export function Composer() {
             <button
               type="button"
               onClick={() => setImageGenOpen(true)}
-              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
               title="Generate Image with AI (DALL-E 3 & Flux)"
             >
               <ImageIcon className="w-4 h-4" />
@@ -282,9 +282,9 @@ export function Composer() {
             <button
               type="button"
               onClick={() => setWebSearchEnabled((prev) => !prev)}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
                 webSearchEnabled
-                  ? 'bg-blue-500/15 text-blue-500 border border-blue-500/30'
+                  ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30 shadow-[0_0_8px_rgba(96,165,250,0.15)]'
                   : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
               }`}
               title="Toggle Live Web Search"
@@ -297,9 +297,9 @@ export function Composer() {
             <button
               type="button"
               onClick={toggleDictation}
-              className={`p-2 rounded-lg text-xs font-medium transition-colors ${
+              className={`p-2 rounded-xl text-xs font-medium transition-colors ${
                 isListeningDictation
-                  ? 'bg-red-500/15 text-red-500 animate-pulse'
+                  ? 'bg-red-500/15 text-red-400 animate-pulse ring-1 ring-red-500/30'
                   : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
               }`}
               title={isListeningDictation ? 'Stop voice typing' : 'Voice typing'}
@@ -314,7 +314,7 @@ export function Composer() {
             <button
               type="button"
               onClick={() => setVoiceModeOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground border border-border text-xs font-medium shadow-sm transition-all group"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-secondary/80 hover:bg-secondary text-foreground border border-border/80 text-xs font-medium shadow-xs transition-all group"
               title="Launch Live Real-Time Voice Conversation"
             >
               <Radio className="w-3.5 h-3.5 text-amber-400 group-hover:animate-pulse" />
@@ -326,7 +326,7 @@ export function Composer() {
               <button
                 type="button"
                 onClick={stopGeneration}
-                className="w-8 h-8 rounded-xl bg-foreground text-background flex items-center justify-center hover:opacity-90 transition-opacity"
+                className="w-8 h-8 rounded-xl bg-foreground text-background flex items-center justify-center hover:opacity-90 active:scale-95 transition-all shadow-sm ring-2 ring-amber-500/20"
                 title="Stop generation (Esc)"
               >
                 <Square className="w-3.5 h-3.5 fill-current" />
@@ -338,8 +338,8 @@ export function Composer() {
                 disabled={!canSubmit}
                 className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
                   canSubmit
-                    ? 'bg-foreground text-background hover:opacity-90 shadow-sm'
-                    : 'bg-muted text-muted-foreground cursor-not-allowed opacity-50'
+                    ? 'bg-foreground text-background hover:opacity-90 active:scale-95 shadow-sm'
+                    : 'bg-muted text-muted-foreground cursor-not-allowed opacity-40'
                 }`}
                 title="Send message (Enter)"
               >
