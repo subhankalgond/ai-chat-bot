@@ -46,6 +46,7 @@ export function Sidebar({
     currentConversationId,
     selectConversation,
     createNewConversation,
+    startNewChat,
     deleteConversation,
     renameConversation,
     togglePinConversation,
@@ -115,7 +116,7 @@ export function Sidebar({
       {/* New Chat Button */}
       <div className="p-3">
         <button
-          onClick={() => createNewConversation()}
+          onClick={() => startNewChat()}
           className={`w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-foreground text-background font-medium text-xs shadow-sm hover:opacity-90 transition-all ${
             collapsed ? 'p-2.5' : ''
           }`}

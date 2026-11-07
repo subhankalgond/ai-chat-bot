@@ -247,3 +247,4 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
     </div>
   );
 }
+

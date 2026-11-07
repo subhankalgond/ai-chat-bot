@@ -312,18 +312,6 @@ export function MessageItem({
             {isStreaming && (
               <span className="inline-block w-1.5 h-4 ml-1 bg-amber-400 animate-pulse align-middle" />
             )}
-
-            {isError && onRegenerate && (
-              <div className="pt-2">
-                <button
-                  onClick={onRegenerate}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity shadow-sm"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Retry Response</span>
-                </button>
-              </div>
-            )}
           </div>
 
           {/* Action Toolbar on Hover */}
@@ -334,16 +322,6 @@ export function MessageItem({
               title="Copy message"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-            </button>
-
-            <button
-              onClick={() => setIsBookmarked(!isBookmarked)}
-              className={`p-1.5 rounded-md hover:bg-secondary text-xs transition-colors ${
-                isBookmarked ? 'text-amber-500 bg-amber-500/10' : 'text-muted-foreground hover:text-foreground'
-              }`}
-              title={isBookmarked ? 'Saved to bookmarks' : 'Bookmark message'}
-            >
-              <Bookmark className="w-3.5 h-3.5" />
             </button>
 
             {onRegenerate && (

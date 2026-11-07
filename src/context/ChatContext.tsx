@@ -17,6 +17,7 @@ interface ChatContextType {
   webSearchEnabled: boolean;
   setWebSearchEnabled: (val: boolean | ((prev: boolean) => boolean)) => void;
   createNewConversation: (initialTitle?: string, modelId?: string) => Conversation;
+  startNewChat: () => void;
   selectConversation: (id: string) => void;
   deleteConversation: (id: string) => void;
   renameConversation: (id: string, newTitle: string) => void;
@@ -39,6 +40,7 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 const LOCAL_STORAGE_CONVERSATIONS_KEY = 'nova_conversations_v1';
 const LOCAL_STORAGE_MESSAGES_KEY = 'nova_messages_v1';
 const LOCAL_STORAGE_THEME_KEY = 'nova_theme_v1';
+const SESSION_STORAGE_ACTIVE_CONV_KEY = 'nova_active_conversation_session_v1';
 
 export function ChatProvider({ children }: { children: React.ReactNode }) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -68,10 +70,31 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       if (savedConvs) {
         const parsedConvs: Conversation[] = JSON.parse(savedConvs);
         setConversations(parsedConvs);
-        // Start fresh with a new session whenever opened!
-        // Previous sessions are preserved and listed in the sidebar under Recent Chats
-        setCurrentConversationId(null);
-        setSelectedModelId(DEFAULT_MODEL_ID);
+
+        // Check if this is a page refresh within the same browser session
+        // Note: sessionStorage survives page refreshes (F5/reload) within the same tab,
+        // but is automatically cleared by the browser when the tab or window is closed!
+        let activeSessionId: string | null = null;
+        try {
+          activeSessionId = sessionStorage.getItem(SESSION_STORAGE_ACTIVE_CONV_KEY);
+        } catch {
+          // Ignore if sessionStorage restricted
+        }
+
+        if (activeSessionId && parsedConvs.some((c) => c.id === activeSessionId)) {
+          // On page refresh: keep the active conversation open
+          setCurrentConversationId(activeSessionId);
+          const activeConv = parsedConvs.find((c) => c.id === activeSessionId);
+          if (activeConv?.modelId) {
+            setSelectedModelId(activeConv.modelId);
+          }
+        } else {
+          // On brand new browser window / after closing web and reopening:
+          // Start from a fresh conversation (Welcome Screen)
+          // while preserving all previous sessions in the sidebar!
+          setCurrentConversationId(null);
+          setSelectedModelId(DEFAULT_MODEL_ID);
+        }
       }
 
       if (savedMsgs) {
@@ -81,6 +104,19 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       console.warn('Failed to load from storage:', e);
     }
   }, []);
+
+  // Sync current conversation ID to sessionStorage (persists across refresh, cleared on tab/window close)
+  useEffect(() => {
+    try {
+      if (currentConversationId) {
+        sessionStorage.setItem(SESSION_STORAGE_ACTIVE_CONV_KEY, currentConversationId);
+      } else {
+        sessionStorage.removeItem(SESSION_STORAGE_ACTIVE_CONV_KEY);
+      }
+    } catch {
+      // Ignore if sessionStorage restricted
+    }
+  }, [currentConversationId]);
 
   // Save conversations to localStorage
   useEffect(() => {
@@ -138,6 +174,14 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     },
     [selectedModelId]
   );
+
+  const startNewChat = useCallback(() => {
+    setCurrentConversationId(null);
+    setSelectedModelId(DEFAULT_MODEL_ID);
+    try {
+      sessionStorage.removeItem(SESSION_STORAGE_ACTIVE_CONV_KEY);
+    } catch {}
+  }, []);
 
   const selectConversation = useCallback((id: string) => {
     setCurrentConversationId(id);
@@ -511,6 +555,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         webSearchEnabled,
         setWebSearchEnabled,
         createNewConversation,
+        startNewChat,
         selectConversation,
         deleteConversation,
         renameConversation,
