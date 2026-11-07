@@ -8,17 +8,23 @@ function getGeminiApiKey(): string {
   return apiKey;
 }
 
+function resolveGeminiModel(modelId: string): string {
+  const lower = modelId.toLowerCase();
+  if (lower.includes('lite')) return 'gemini-3.5-flash-lite';
+  if (lower.includes('3.8') || lower.includes('pro')) return 'gemini-3.8-flash';
+  return 'gemini-3.5-flash';
+}
+
 export async function* streamGeminiResponse(
   messages: Message[],
-  modelId: string = 'gemini-2.0-flash',
+  modelId: string = 'gemini-3.5-flash',
   systemPrompt: string = '',
   attachments: Attachment[] = []
 ): AsyncGenerator<string, void, unknown> {
   const apiKey = getGeminiApiKey();
 
-  // Normalize model ID for Google Gemini REST/SDK
-  const cleanModelId = modelId.replace('gemini-', '');
-  const targetModel = modelId.startsWith('gemini-') ? modelId : `gemini-${modelId}`;
+  // Normalize and resolve model ID to active Google Gemini model
+  const targetModel = resolveGeminiModel(modelId);
 
   // Format messages for Gemini API
   const contents: any[] = [];
@@ -80,8 +86,17 @@ export async function* streamGeminiResponse(
   });
 
   if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`Gemini API error (${response.status}): ${errText}`);
+    let errMessage = `Gemini API error (${response.status})`;
+    try {
+      const errJson = await response.json();
+      if (errJson?.error?.message) {
+        errMessage = `Google Gemini Error (${response.status}): ${errJson.error.message}`;
+      }
+    } catch {
+      const errText = await response.text();
+      errMessage = `Google Gemini Error (${response.status}): ${errText}`;
+    }
+    throw new Error(errMessage);
   }
 
   if (!response.body) {

@@ -51,11 +51,11 @@ export const MODEL_REGISTRY: ModelDefinition[] = [
 
   // --- Google Gemini Models ---
   {
-    id: 'gemini-2.0-flash',
-    name: 'Gemini 2.0 Flash',
+    id: 'gemini-3.5-flash',
+    name: 'Gemini 3.5 Flash',
     provider: 'gemini',
     providerLabel: 'Google',
-    description: 'Next-generation Gemini with low-latency multimodal capabilities and live audio streaming.',
+    description: 'Next-generation Gemini flagship. Low-latency multimodal capabilities and live real-time voice streaming.',
     contextWindow: 1048576,
     maxOutputTokens: 8192,
     modalities: ['text', 'vision', 'audio', 'tools'],
@@ -67,26 +67,26 @@ export const MODEL_REGISTRY: ModelDefinition[] = [
     costPer1kOutputUSD: 0.0004,
   },
   {
-    id: 'gemini-1.5-pro',
-    name: 'Gemini 1.5 Pro',
+    id: 'gemini-3.8-flash',
+    name: 'Gemini 3.8 Flash',
     provider: 'gemini',
     providerLabel: 'Google',
-    description: 'Massive 2M token context window. Ideal for large document analysis, codebases, and deep research.',
-    contextWindow: 2097152,
+    description: 'High-reasoning Google multimodal model with deep technical and analytical synthesis.',
+    contextWindow: 1048576,
     maxOutputTokens: 8192,
     modalities: ['text', 'vision', 'audio', 'tools', 'reasoning'],
-    supportsRealtimeVoice: false,
+    supportsRealtimeVoice: true,
     supportsStreaming: true,
     supportsWebSearch: true,
-    costPer1kInputUSD: 0.00125,
-    costPer1kOutputUSD: 0.0050,
+    costPer1kInputUSD: 0.0005,
+    costPer1kOutputUSD: 0.0020,
   },
   {
-    id: 'gemini-1.5-flash',
-    name: 'Gemini 1.5 Flash',
+    id: 'gemini-3.5-flash-lite',
+    name: 'Gemini 3.5 Flash Lite',
     provider: 'gemini',
     providerLabel: 'Google',
-    description: 'Blazing fast, lightweight powerhouse for rapid Q&A and instant summarization.',
+    description: 'Ultra-fast, lightweight powerhouse for rapid Q&A and instant summarization.',
     contextWindow: 1048576,
     maxOutputTokens: 8192,
     modalities: ['text', 'vision', 'tools'],
@@ -146,11 +146,11 @@ export const MODEL_REGISTRY: ModelDefinition[] = [
   },
 ];
 
-export const DEFAULT_MODEL_ID = 'gpt-4o';
+export const DEFAULT_MODEL_ID = 'gemini-3.5-flash';
 
 export function getModelById(modelId: string): ModelDefinition {
   const model = MODEL_REGISTRY.find((m) => m.id === modelId);
-  return model || MODEL_REGISTRY[0];
+  return model || MODEL_REGISTRY.find((m) => m.id === DEFAULT_MODEL_ID) || MODEL_REGISTRY[0];
 }
 
 export function getModelsByProvider(provider: AIProvider): ModelDefinition[] {

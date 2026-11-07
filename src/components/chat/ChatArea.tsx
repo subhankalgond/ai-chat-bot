@@ -22,7 +22,7 @@ export function ChatArea() {
         {messages.length === 0 ? (
           <WelcomeScreen />
         ) : (
-          <div className="divide-y divide-border/20 pb-6">
+          <div className="space-y-4 py-4 pb-6">
             {messages.map((msg, index) => {
               const isLastAssistantMessage =
                 msg.role === 'assistant' && index === messages.length - 1;

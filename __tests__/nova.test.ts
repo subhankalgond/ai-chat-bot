@@ -33,7 +33,7 @@ describe('NOVA AI — Comprehensive Platform Test Suite', () => {
 
     test('Realtime Voice is supported on designated models', () => {
       const gpt4o = getModelById('gpt-4o');
-      const geminiFlash = getModelById('gemini-2.0-flash');
+      const geminiFlash = getModelById('gemini-3.5-flash');
       const claudeSonnet = getModelById('claude-3-5-sonnet');
 
       expect(gpt4o.supportsRealtimeVoice).toBe(true);

@@ -68,10 +68,10 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       if (savedConvs) {
         const parsedConvs: Conversation[] = JSON.parse(savedConvs);
         setConversations(parsedConvs);
-        if (parsedConvs.length > 0) {
-          setCurrentConversationId(parsedConvs[0].id);
-          setSelectedModelId(parsedConvs[0].modelId || DEFAULT_MODEL_ID);
-        }
+        // Start fresh with a new session whenever opened!
+        // Previous sessions are preserved and listed in the sidebar under Recent Chats
+        setCurrentConversationId(null);
+        setSelectedModelId(DEFAULT_MODEL_ID);
       }
 
       if (savedMsgs) {
@@ -248,6 +248,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       const decoder = new TextDecoder();
       let accumulatedContent = '';
       let citations: SearchCitation[] = [];
+      let streamError: string | null = null;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -284,7 +285,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
                   };
                 });
               } else if (event.type === 'error') {
-                throw new Error(event.error);
+                streamError = event.error || 'The AI provider returned an error.';
+                break;
               }
             } catch (err: any) {
               if (err.message && err.message !== 'Unexpected end of JSON input') {
@@ -292,6 +294,10 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
               }
             }
           }
+        }
+
+        if (streamError) {
+          throw new Error(streamError);
         }
       }
 
@@ -348,7 +354,9 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
               m.id === assistantMsgId
                 ? {
                     ...m,
-                    content: m.content || `⚠️ Error: ${err.message}`,
+                    content: m.content
+                      ? `${m.content}\n\n⚠️ ${err.message}`
+                      : `⚠️ ${err.message}`,
                     status: 'error',
                     error: err.message,
                   }

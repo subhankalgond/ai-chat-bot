@@ -123,9 +123,17 @@ Remain articulate, balanced, and context-aware.`;
     };
   } catch (err: any) {
     console.error(`Orchestration error with ${modelDef.name}:`, err);
+    let errorDetail = err.message || `An error occurred while generating a response with ${modelDef.name}.`;
+
+    if (errorDetail.includes('429') || errorDetail.includes('credits') || errorDetail.includes('quota')) {
+      errorDetail += `\n\n💡 **Tip:** This provider account has reached its quota or has zero credits balance. You can select **Google Gemini 3.5 Flash** from the model dropdown at the top to chat immediately!`;
+    } else if (errorDetail.includes('401') || errorDetail.includes('invalid x-api-key') || errorDetail.includes('authentication_error')) {
+      errorDetail += `\n\n💡 **Tip:** Authentication failed for this provider (Anthropic keys start with \`sk-ant-api03-...\`). You can switch to **Google Gemini 3.5 Flash** from the model dropdown to chat immediately!`;
+    }
+
     yield {
       type: 'error',
-      error: err.message || `An error occurred while generating a response with ${modelDef.name}.`,
+      error: errorDetail,
     };
   }
 }
