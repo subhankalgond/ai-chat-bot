@@ -81,9 +81,26 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "-apple-system", "sans-serif"],
+        sans: [
+          "var(--font-sans)",
+          "Plus Jakarta Sans",
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif",
+        ],
         serif: ["var(--font-serif)", "Georgia", "serif"],
-        mono: ["var(--font-mono)", "Menlo", "Consolas", "monospace"],
+        mono: [
+          "var(--font-mono)",
+          "JetBrains Mono",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "monospace",
+        ],
       },
       keyframes: {
         "accordion-down": {

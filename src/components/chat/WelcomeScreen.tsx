@@ -59,11 +59,11 @@ export function WelcomeScreen() {
         </div>
       </div>
 
-      <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+      <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground font-sans">
         What can I help you accomplish today?
       </h1>
 
-      <p className="mt-2 text-xs sm:text-sm text-muted-foreground max-w-md leading-relaxed">
+      <p className="mt-2 text-xs sm:text-sm text-muted-foreground max-w-md leading-relaxed font-sans tracking-[-0.01em]">
         Currently orchestrating with <span className="font-semibold text-foreground">{activeModel.name}</span> by {activeModel.providerLabel}. Switch providers anytime without losing context.
       </p>
 
